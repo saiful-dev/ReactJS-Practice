@@ -11,7 +11,8 @@ class App extends Component {
             {name:'jewel',age:26},
             {name:'easin',age:24}
     ],
-    otherstate: 'others value'
+    otherstate: 'others value',
+    showPerson: false,
 
 }
   SwitchNameHandelar = (newName)=>{
@@ -30,6 +31,14 @@ class App extends Component {
       } // close SwitchNameHandelar
 
  
+  togglePersonhandaler=()=>{
+        const doesShow=this.state.showPerson;
+        this.setState({
+
+                    showPerson: !doesShow
+        });
+
+  }
   nameChangedHandler = (event) => {
         this.setState( {
           person: [
@@ -57,25 +66,28 @@ class App extends Component {
             <p>React APP!</p>
             <button 
               style={styleJS}
-              onClick={()=> this.SwitchNameHandelar('Saiful Islam')}>Switch name</button>
+              onClick={this.togglePersonhandaler}>Toggle Persons</button>
+            {this.state.showPerson?  // we can't write if else
+            <div >
+              <Person 
+                name={this.state.person[0].name} 
+                age={this.state.person[0].age}      />
 
-            <Person 
-                  name={this.state.person[0].name} 
-                  age={this.state.person[0].age}      />
-
-            <Person 
-                    name={this.state.person[1].name} 
-                    age={this.state.person[1].age} 
-                    click={this.SwitchNameHandelar.bind(this,'Saiful!!')} 
-                    changed={this.nameChangedHandler} > Hobies: traveling</Person>
+              <Person 
+                      name={this.state.person[1].name} 
+                      age={this.state.person[1].age} 
+                      click={this.SwitchNameHandelar.bind(this,'Saiful!!')} 
+                      changed={this.nameChangedHandler} > Hobies: traveling</Person>
 
 
-            <Person 
-                    name={this.state.person[2].name} 
-                    age={this.state.person[2].age} 
-                  />
-
+              <Person 
+                      name={this.state.person[2].name} 
+                      age={this.state.person[2].age} 
+                    />
             
+            </div> :null   //close ternary operator
+
+            }
 
         </div>
     );
