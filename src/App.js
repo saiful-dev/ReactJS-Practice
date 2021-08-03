@@ -60,18 +60,13 @@ class App extends Component {
         cursor: 'pointer',
     };
 
-    return (
-        <div className="App"> 
-            <h1> Hello dear</h1>
-            <p>React APP!</p>
-            <button 
-              style={styleJS}
-              onClick={this.togglePersonhandaler}>Toggle Persons</button>
-            {this.state.showPerson?  // we can't write if else
-            <div >
-              <Person 
-                name={this.state.person[0].name} 
-                age={this.state.person[0].age}      />
+    let persons=null; //js code
+    if(this.state.showPerson){ // we can use if here bcz we can add here JS code
+      persons=( // it is also Jsx code
+        <div>
+            <Person 
+              name={this.state.person[0].name} 
+              age={this.state.person[0].age}      />
 
               <Person 
                       name={this.state.person[1].name} 
@@ -85,9 +80,22 @@ class App extends Component {
                       age={this.state.person[2].age} 
                     />
             
-            </div> :null   //close ternary operator
+        </div>
+      )
+    }
 
-            }
+    return (
+        <div className="App"> 
+            <h1> Hello dear</h1>
+            <p>React APP!</p>
+            <button 
+              style={styleJS}
+              onClick={this.togglePersonhandaler}>Toggle Persons</button>
+              {persons} 
+              {/* when needs to updates anythings,(means we click toggle button) then render method will 
+              execute and not only return  */}
+
+            
 
         </div>
     );
