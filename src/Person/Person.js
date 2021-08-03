@@ -1,6 +1,8 @@
 import React from 'react';
 
-const person =(props)=>{
+import './Person.css';
+
+const person =(props)=>{ //state less componet
 
     
     // if we use {} brace then need to return..if we use () no need to return
@@ -10,11 +12,11 @@ const person =(props)=>{
     //(max - min)  + min;
     // return <p1>I'm a person and {Math.floor(Math.random()*(30-20))+20} years old!!</p1>
     return (
-        <div>
-            <p1>I'm {props.name}  and {props.age} years old!! <br/></p1>
-           
-            <p>{props.children}</p>
-        </div>
+        <div className='Person'>
+        <p onClick={props.click}>I'm {props.name} and I am {props.age} years old!</p>
+        <p>{props.children}</p>
+        <input type="text" onChange={props.changed} value={props.name} />
+    </div>
     );
 }
 
