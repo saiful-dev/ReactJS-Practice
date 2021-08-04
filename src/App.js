@@ -7,9 +7,9 @@ import Person from './Person/Person';  // use ./ bcz it is a relative path
 class App extends Component {
   state = { // state object property
     person: [ //person array
-            {name:'saiful',age:25}, //object
-            {name:'jewel',age:26},
-            {name:'easin',age:24}
+            {name:'saiful1',age:25}, //object
+            {name:'jewel2',age:26},
+            {name:'easin3',age:24}
     ],
     otherstate: 'others value',
     showPerson: false,
@@ -31,6 +31,15 @@ class App extends Component {
       } // close SwitchNameHandelar
 
  
+  deletePersonHadeler=(personIndex)=>{
+      const personNew=this.state.person;
+      personNew.splice(personIndex,1);
+      this.setState({
+          person: personNew
+      })
+    }
+
+
   togglePersonhandaler=()=>{
         const doesShow=this.state.showPerson;
         this.setState({
@@ -39,15 +48,7 @@ class App extends Component {
         });
 
   }
-  nameChangedHandler = (event) => {
-        this.setState( {
-          person: [
-            { name: 'saiful', age: 25 },
-            { name: event.target.value, age: 26 },
-            { name: 'easin', age: 24 }
-          ]
-        } )
-  }
+ 
 
   render(){
 
@@ -64,21 +65,24 @@ class App extends Component {
     if(this.state.showPerson){ // we can use if here bcz we can add here JS code
       persons=( // it is also Jsx code
         <div>
-            <Person 
-              name={this.state.person[0].name} 
-              age={this.state.person[0].age}      />
+            
+            {// rendering Js array from state
+              //js map function
+                    this.state.person.map((person,index) =>{
+                      // return jsx, every element of array map in jsx
+                      // Person component
+                      // here map person and return person same
+                      return <Person 
+                              click={()=>this.deletePersonHadeler(index)}
+                              name={person.name}
+                              age={person.age} />
+                      
+                      
+                     
+                    })
+            }
 
-              <Person 
-                      name={this.state.person[1].name} 
-                      age={this.state.person[1].age} 
-                      click={this.SwitchNameHandelar.bind(this,'Saiful!!')} 
-                      changed={this.nameChangedHandler} > Hobies: traveling</Person>
-
-
-              <Person 
-                      name={this.state.person[2].name} 
-                      age={this.state.person[2].age} 
-                    />
+            
             
         </div>
       )
