@@ -1,76 +1,75 @@
 import { directive, react } from '@babel/types';
 import React, { Component} from 'react';
 import './App.css';
+import Radium, {StyleRoot} from 'radium'; // styleroot for media queries
 import Person from './Person/Person';  // use ./ bcz it is a relative path 
 
 
 class App extends Component {
   state = { // state object property
     person: [ //person array
-            {id:'s101', name:'saiful1',age:25}, //object
-            {id:'s102',name:'jewel2',age:26},
-            {id:'s103',name:'easin3',age:24}
+        {id:'s101', name:'saiful1',age:25}, //object
+        {id:'s102',name:'jewel2',age:26},
+        {id:'s103',name:'easin3',age:24}
     ],
     otherstate: 'others value',
     showPerson: false,
 
 }
-  SwitchNameHandelar = (newName)=>{
-      //console.log('SwitchNameHandelar clicked');
-     
-       //Don't use like bcz react can't recognize it  //this.state.person[0].name='saiful islam'; 
- 
-      this.setState({ //react merge this change to the state obj
-          person:[ //person array
-          {name: newName,age:26}, //object
-          {name:'jewel',age:25},
-          {name:'easin',age:25}
-          ]
+SwitchNameHandelar = (newName)=>{
+    //console.log('SwitchNameHandelar clicked');
+      
+    //Don't use like bcz react can't recognize it  //this.state.person[0].name='saiful islam'; 
+  
+    this.setState({ //react merge this change to the state obj
+    person:[ //person array
+        {name: newName,age:26}, //object
+        {name:'jewel',age:25},
+        {name:'easin',age:25}
+        ]
         } )
 
-      } // close SwitchNameHandelar
+    } //close SwitchNameHandelar
 
- 
+    nameChangeHandelar=(event,id)=>{
 
-  nameChangeHandelar=(event,id)=>{
-   const personIndex=this.state.person.findIndex(p=>{
-          return p.id===id; //we just set condition 
-          });
-  
-   const personIndexedArray={
+      const personIndex=this.state.person.findIndex(p=>{
+        return p.id===id; //we just set condition 
+    });
+    
+    const personIndexedArray={
             ...this.state.person[personIndex]
-      };
+    };
 
     personIndexedArray.name=event.target.value;
     const personNew=[...this.state.person];
     personNew[personIndex]=personIndexedArray;
 
-      this.setState({ //react merge this change to the state obj
-        person:personNew
-      } )
+    this.setState({ //react merge this change to the state obj
+      person:personNew
+    } )
 
-  }
+ } //nameChangeHandelar
 
 
   deletePersonHadeler=(personIndex)=>{
 
-    // as object and arrray is refference type so we should avoid direct copy
-    // better if we use spread operator or slice method
+      // as object and arrray is refference type so we should avoid direct copy
+      // better if we use spread operator or slice method
       //const personNew=this.state.person.slice();
       const personNew=[...this.state.person]; // shallow copy through spread operator
       personNew.splice(personIndex,1);
       this.setState({
           person: personNew
       })
-    }
+  }
 
 
   togglePersonhandaler=()=>{
-        const doesShow=this.state.showPerson;
-        this.setState({
-
-                    showPerson: !doesShow
-        });
+      const doesShow=this.state.showPerson;
+      this.setState({
+          showPerson: !doesShow
+      });
 
   }
  
@@ -79,74 +78,97 @@ class App extends Component {
 
     const styleJS={ // JS Object, We define css style in js
 
-        backgroundColor: 'white', //we add property in quatation bcz all are string in js
+        backgroundColor: 'green', //we add property in quatation bcz all are string in js
+        color:'white',
         font:'inherit',
         border: '1px solid blue',
         padding: '8px',
         cursor: 'pointer',
+        ':hover':{
+          backgroundColor:'lightgreen',
+          color:'black',
+        }
     };
+    // we add string in ' quatation'
 
+    //normally we can't use pseodu code here , so we install
+    //Radium is a set of tools to manage inline styles on React elements. 
+    //It gives you powerful styling capabilities without CSS.
+   //radium is all about style
     let persons=null; //js code
     if(this.state.showPerson){ // we can use if here bcz we can add here JS code
       persons=( // it is also Jsx code
         <div>
             
-            {// rendering Js array from state
+          {// rendering Js array from state
               //js map function
-                    this.state.person.map((person,index) =>{
-                      // return jsx, every element of array map in jsx
-                      // Person component
-                      // here map person and return person same
-                      // we use key and id to remove array iterator should have unique id warnings
-                      //also key may be used in future
+              this.state.person.map((person,index) =>{
+              // return jsx, every element of array map in jsx
+              // Person component
+              // here map person and return person same
+              // we use key and id to remove array iterator should have unique id warnings
+              //also key may be used in future
 
-                      /*"" An event can be triggered by the user action e.g. 
-                      clicking the mouse button or tapping keyboard, 
-                      //or generated by APIs to represent the progress of an asynchronous tas"""*/
-                      return <Person 
-                              click={()=>this.deletePersonHadeler(index)}
-                              name={person.name}
-                              age={person.age} 
-                              key={person.id}
-                              changed={(event)=>this.nameChangeHandelar(event,person.id)}/>
-                           {/*
-                                                                // Traditional Function
-                          function (a){
-                            return a + 100;
-                          }
+              /*"" An event can be triggered by the user action e.g. 
+              clicking the mouse button or tapping keyboard, 
+              //or generated by APIs to represent the progress of an asynchronous tas"""*/
+              return <Person 
+                  click={()=>this.deletePersonHadeler(index)}
+                  name={person.name}
+                  age={person.age} 
+                  key={person.id}
+                  changed={(event)=>this.nameChangeHandelar(event,person.id)}/>
+                  {/*
+                     // Traditional Function
+                      function (a){
+                          return a + 100;
+                      }
+                    // Arrow Function Break Down
+                    // 1. Remove the word "function" and place arrow between the argument and opening body bracket
+                    (a) => {
+                        return a + 100;
+                       }
+                    */}
 
-                          // Arrow Function Break Down
-
-                          // 1. Remove the word "function" and place arrow between the argument and opening body bracket
-                          (a) => {
-                            return a + 100;
-                          }
-                          */}
-                      
-                     
                     })
             }
-
-            
-            
+      
         </div>
-      )
-    }
+    ) //persons close
+    styleJS.backgroundColor='silver';
+    styleJS[':hover']={ //assign new js object
+          backgroundColor:'salmon',
+          colro:'black',
+     }
+
+  } 
+
+  //const classes=['red','bold'].join(' ');
+  // we can write also 'red bold' in className
+   const classes=[];
+   if(this.state.person.length <=2){
+        classes.push('red'); //classes=['red']
+   }
+   if(this.state.person.length <=1){
+     classes.push('bold'); //classes=['red','bold']
+
+  }
+
 
     return (
-        <div className="App"> 
-            <h1> Hello dear</h1>
-            <p>React APP!</p>
-            <button 
+      <StyleRoot>  {/*for radium (media quries) */}
+      <div className="App"> 
+      <h1> Hello dear</h1>
+          <p className={classes.join(' ')}>React APP!</p> {/* we need to join bcz classes takes string */}
+           <button 
               style={styleJS}
               onClick={this.togglePersonhandaler}>Toggle Persons</button>
               {persons} 
               {/* when needs to updates anythings,(means we click toggle button) then render method will 
               execute and not only return  */}
-
-            
-
+              
         </div>
+        </StyleRoot>
     );
 
     
@@ -161,4 +183,6 @@ class App extends Component {
 
 }
 
-export default App;
+export default Radium(App);
+
+// call radium as a function and wrap app with it
