@@ -1,7 +1,7 @@
 import { directive, react } from '@babel/types';
 import React, { Component} from 'react';
 import './App.css';
-import Radium, {StyleRoot} from 'radium'; // styleroot for media queries
+//import Radium, {StyleRoot} from 'radium'; // styleroot for media queries
 import Person from './Person/Person';  // use ./ bcz it is a relative path 
 
 
@@ -84,10 +84,10 @@ SwitchNameHandelar = (newName)=>{
         border: '1px solid blue',
         padding: '8px',
         cursor: 'pointer',
-        ':hover':{
-          backgroundColor:'lightgreen',
-          color:'black',
-        }
+        // ':hover':{
+        //   backgroundColor:'lightgreen',
+        //   color:'black',
+        // }
     };
     // we add string in ' quatation'
 
@@ -136,10 +136,10 @@ SwitchNameHandelar = (newName)=>{
         </div>
     ) //persons close
     styleJS.backgroundColor='silver';
-    styleJS[':hover']={ //assign new js object
-          backgroundColor:'salmon',
-          colro:'black',
-     }
+    // styleJS[':hover']={ //assign new js object
+    //       backgroundColor:'salmon',
+    //       colro:'black',
+    //  }
 
   } 
 
@@ -156,7 +156,7 @@ SwitchNameHandelar = (newName)=>{
 
 
     return (
-      <StyleRoot>  {/*for radium (media quries) */}
+      //<StyleRoot>  {/*for radium (media quries) */}
       <div className="App"> 
       <h1> Hello dear</h1>
           <p className={classes.join(' ')}>React APP!</p> {/* we need to join bcz classes takes string */}
@@ -168,7 +168,7 @@ SwitchNameHandelar = (newName)=>{
               execute and not only return  */}
               
         </div>
-        </StyleRoot>
+        //</StyleRoot>
     );
 
     
@@ -183,6 +183,6 @@ SwitchNameHandelar = (newName)=>{
 
 }
 
-export default Radium(App);
+export default App;
 
 // call radium as a function and wrap app with it
