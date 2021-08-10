@@ -3,6 +3,8 @@
 import './Person.css';
 
 const person =(props)=>{ //state less componet
+
+    console.log('[Person.js] rendering');
     // we need to add js code in string with jsx
     // const style={
     //     '@media (min width: 500px':{

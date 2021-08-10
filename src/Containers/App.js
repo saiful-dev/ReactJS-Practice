@@ -9,6 +9,13 @@ import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Cockpit/Cockpit';
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    console.log('App Constructor');
+
+  }
+  
   state = { // state object property
     person: [ //person array
         {id:'s101', name:'saiful1',age:25}, //object
@@ -18,6 +25,41 @@ class App extends Component {
     otherstate: 'others value',
     showPerson: false,
 
+}
+/*
+getDerivedStateFromProps(props, state) is a static method that is called 
+just before render() method in both mounting and updating phase in React. 
+It takes updated props and the current state as arguments.
+
+We have to return an object to update state or null to indicate 
+ that nothing has changed.
+
+*/
+static getDrivedStateFromProps(props,state){ // we add static bcz it is a static method
+  console.log('[App.js] gerDrivedStateFromprops');
+  return state;
+}
+
+/*
+The componentWillMount() lifecycle hook is primarily used to implement server-side 
+logic before the actual rendering happens, such as making an API call to the server. In this guide, you will learn to use componentWillMount() 
+and make API calls after the initial component rendering
+
+** the function will only trigger once in the lifespan of a component.
+
+*/
+
+componentWillMount(){
+  console.log('[App.js] componet will mount');
+}
+/*
+The componentDidMount() method allows us to execute the React code when the component is already placed in the DOM 
+(Document Object Model). This method is called during the Mounting phase of the React Life-cycle
+ i.e after the component is rendered.
+
+*/
+componentDidMount(){
+  console.log('[App.js] comnponentdid mount');
 }
 SwitchNameHandelar = (newName)=>{
     //console.log('SwitchNameHandelar clicked');
@@ -79,6 +121,7 @@ SwitchNameHandelar = (newName)=>{
 
   render(){
 
+    console.log('[App.js] render running');
     const styleJS={ // JS Object, We define css style in js
 
         backgroundColor: 'green', //we add property in quatation bcz all are string in js
@@ -124,6 +167,7 @@ SwitchNameHandelar = (newName)=>{
       //<StyleRoot>  {/*for radium (media quries) */}
       <div className="App"> 
             <Cockpit 
+            title={this.props.appTitle} // we set props in index.js file
             personCoc={this.state.person}
             stylejs={this.styleJS}
             toggle={this.togglePersonhandaler}
