@@ -10,7 +10,7 @@ import Cockpit from '../Cockpit/Cockpit';
 
 class App extends Component {
 
-  constructor(props){
+  constructor(props){ // constructor call only once
     super(props);
     console.log('App Constructor');
 
@@ -24,6 +24,7 @@ class App extends Component {
     ],
     otherstate: 'others value',
     showPerson: false,
+    showCockpit: true
 
 }
 /*
@@ -61,6 +62,19 @@ The componentDidMount() method allows us to execute the React code when the comp
 componentDidMount(){
   console.log('[App.js] comnponentdid mount');
 }
+
+shouldComponentUpdate(prevState,prevProps){
+  console.log('App.js shouldComponentUpdate');
+  return true;
+
+}
+componentDidUpdate(){
+  console.log('App.js componentDidUpdate');
+
+}
+
+
+
 SwitchNameHandelar = (newName)=>{
     //console.log('SwitchNameHandelar clicked');
       
@@ -166,14 +180,21 @@ SwitchNameHandelar = (newName)=>{
     return (
       //<StyleRoot>  {/*for radium (media quries) */}
       <div className="App"> 
+      <button onClick={()=>{
+        this.setState({showCockpit: false});
+      }}>Remove Button</button>
+      
+      {this.state.showCockpit? (
             <Cockpit 
             title={this.props.appTitle} // we set props in index.js file
-            personCoc={this.state.person}
+            personCocLen={this.state.person.length}
             stylejs={this.styleJS}
             toggle={this.togglePersonhandaler}
            
 
-             />
+             /> ) :null }
+
+
             {persons}  
         </div>
         //</StyleRoot>
