@@ -1,12 +1,13 @@
 import { directive, react } from '@babel/types';
 import React, { Component} from 'react';
-import './App.css';
-//import Radium, {StyleRoot} from 'radium'; // styleroot for media queries
- 
+
+//import Radium, {StyleRoot} from 'radium'; // styleroot for media queries 
 import Persons from '../Components/Persons/Persons';
 // .. means we need up one level of App from container, then path of the persons 
-
 import Cockpit from '../Cockpit/Cockpit';
+import AuthContext from '../context/auth-context'
+
+import './App.css';
 
 class App extends Component {
 
@@ -24,7 +25,9 @@ class App extends Component {
     ],
     otherstate: 'others value',
     showPerson: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter:0,
+    authenticated: false,
 
 }
 /*
@@ -104,9 +107,15 @@ SwitchNameHandelar = (newName)=>{
     const personNew=[...this.state.person];
     personNew[personIndex]=personIndexedArray;
 
-    this.setState({ //react merge this change to the state obj
-      person:personNew
+    this.setState((prevState,props)=>{
+      return{
+          //react merge this change to the state obj
+      person:personNew,
+      //changeCounter: this.state.changeCounter +1,
+      changeCounter: prevState.changeCounter +1,  // here we will get the actual result
+      }
     } )
+     
 
  } //nameChangeHandelar
 
@@ -131,7 +140,14 @@ SwitchNameHandelar = (newName)=>{
       });
 
   }
- 
+
+ loginHandler=()=>{
+   this.setState({
+     authenticated: true,
+   })
+
+ };
+
 
   render(){
 
@@ -162,8 +178,11 @@ SwitchNameHandelar = (newName)=>{
             <Persons
               personsApp={this.state.person}
               clicked={this.deletePersonHadeler}
-              changed={this.nameChangeHandelar} />
-      
+              changed={this.nameChangeHandelar} 
+              isAuthenticated={this.state.authenticated} 
+              
+              
+              />
         </div>
     ) //persons close
     styleJS.backgroundColor='silver';
@@ -181,22 +200,26 @@ SwitchNameHandelar = (newName)=>{
       //<StyleRoot>  {/*for radium (media quries) */}
       <div className="App"> 
       <button onClick={()=>{
-        this.setState({showCockpit: false});
-      }}>Remove Button</button>
+          this.setState({showCockpit: false});
+            }}>Remove Button</button>
       
-      {this.state.showCockpit? (
+      <AuthContext.Provider 
+          value={{authenticated : this.state.authenticated,
+          login: this.loginHandler}}>  {/* {{ means one for jsx and one forf js object}} */}
+        {this.state.showCockpit? (
             <Cockpit 
-            title={this.props.appTitle} // we set props in index.js file
-            personCocLen={this.state.person.length}
-            stylejs={this.styleJS}
-            toggle={this.togglePersonhandaler}
-           
+              title={this.props.appTitle} // we set props in index.js file
+              personCocLen={this.state.person.length}
+              stylejs={this.styleJS}
+              toggle={this.togglePersonhandaler}
+             
 
-             /> ) :null }
+              /> ) :null }
 
 
-            {persons}  
-        </div>
+              {persons}  
+      </AuthContext.Provider>
+      </div>
         //</StyleRoot>
     );
 

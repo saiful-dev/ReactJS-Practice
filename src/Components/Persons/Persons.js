@@ -1,6 +1,8 @@
 import React,{PureComponent} from 'react';
 import Person from './Person/Person';
 
+
+
 class PersonsCom extends PureComponent{
 
 // static getDerivedStateFromProps(props,state){
@@ -54,7 +56,8 @@ componentWillUnmount(){
                 name={person.name}
                 age={person.age} 
                 key={person.id}
-                changed={(event)=>this.props.changed(event,person.id)}/>
+                changed={(event)=>this.props.changed(event,person.id)}
+                isAuth={this.props.isAuthenticated}/>
             )
         } )
 
